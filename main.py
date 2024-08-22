@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, abort, render_template, redirect, url_for, flash, request
+from flask import Flask, abort, render_template, redirect, url_for, flash, request, jsonify
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -196,6 +196,12 @@ def show_post(post_id):
         db.session.add(new_comment)
         db.session.commit()
     return render_template("post.html", post=requested_post, current_user=current_user, form=comment_form)
+# @app.route("/user/post/<int:post_id>", methods=["GET", "POST"])
+# def show_post(post_id):
+#     requested_post = db.get_or_404(Farmer_Post,farmer_post.id)
+# return render_template("post.html", post=requested_post, current_user=current_user)
+
+
 
 
 # Use a decorator so only an admin user can create new posts
@@ -259,6 +265,12 @@ def about():
 def contact():
     return render_template("contact.html", current_user=current_user)
 
+d={"key":1,"value":"sachin"}
+@app.route("/apis", methods=["GET", "POST"])
+def apis():
+    return jsonify(d)
+
+
 # Optional: You can include the email sending code from Day 60:
 # DON'T put your email and password here directly! The code will be visible when you upload to Github.
 # Use environment variables instead (Day 35)
@@ -283,5 +295,6 @@ def contact():
 #         connection.sendmail(MAIL_ADDRESS, MAIL_APP_PW, email_message)
 
 
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
